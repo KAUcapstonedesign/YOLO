@@ -45,3 +45,5 @@ for f in glob.glob(os.path.join(faces_folder_path, "*.jpg")):   # jpg 파일만 
 
     win.add_overlay(dets)   # 얼굴 윤곽 화면 출력
     dlib.hit_enter_to_continue()    # 다음 이미지로 넘어가기 위해 엔터키 입력
+
+#python face_landmark_detection.py shape_predictor_68_face_landmarks.dat ./
