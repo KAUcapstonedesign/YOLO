@@ -94,3 +94,5 @@ for f in glob.glob(os.path.join(faces_folder_path, "*.jpg")):
         if cv2.waitKey(0) == ESC_KEY:
             break;
 cv2.destroyWindow('Face')
+
+#python face_landmark_number.py shape_predictor_68_face_landmarks.dat ./
