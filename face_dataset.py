@@ -17,15 +17,21 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # 컬러 -> 흑백으로 변환
     faces = faceCascade.detectMultiScale(   
         gray,   # gray scale로 변환한 이미지
-        scaleFactor = 1.2,  # 검색 윈도우 확대 비율, 1보다 커야 한다 / 값이 높을수록 정확도는 떨어지지만 검출률이 높아진다 / 1.05~1.4 정도로 설정
+        scaleFactor = 1.05,  # 검색 윈도우 확대 비율, 1보다 커야 한다 / 값이 높을수록 정확도는 떨어지지만 검출률이 높아진다 / 1.05~1.4 정도로 설정
         minNeighbors = 6,   # 얼굴 사이 최소 간격(픽셀) / 값이 높을수록 정확도는 떨어지지만 검출률이 높아진다 / 3~6 정도로 설정
         minSize=(20,20) # 얼굴 최소 크기, 이 값보다 작으면 무시
     )
-
-    for (x,y,w,h) in faces: # 얼굴이 검출되면 / (x,y) : 얼굴 좌표, w,h : 얼굴 너비와 높이
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)    # 얼굴에 사각형 표시 / (x+w,y+h) : 얼굴 우측 하단 좌표, (255,0,0) : blue, 2 : 선 두께 
+    
+    for (x,y,w,h) in faces: # 얼굴이 검출되면 / (x,y): 얼굴 좌표 / w, h: 얼굴 너비와 높이
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),1)    # 얼굴에 사각형 표시 / (x+w,y+h): 얼굴 우측 하단 좌표, (255,0,0): blue, 1: 선 두께 
         count += 1  # 얼굴 사진 개수 + 1
-        cv2.imwrite("dataset/User."+str(face_id)+'.'+str(count)+".jpg",gray[y:y+h, x:x+w])  # 얼굴 사진 jpg 형식으로 저장
+        # cv2.imwrite("data/User."+str(face_id)+'.'+str(count)+".jpg",gray[y:y+h, x:x+w])  # 얼굴 사진 jpg 형식으로 저장
+        cv2.imwrite(f"data/User.{face_id}.{count}.jpg", gray[y:y + h, x:x + w])  # 얼굴 사진 jpg 형식으로 저장
+        for count_label in range(1, 101):   # range(시작, 끝+1)만큼 반복 / 라벨링 txt 파일 생성
+            folder = "train" if count_label <= 70 else ("valid" if count_label <= 90 else "test")   # 1~70: train, 71~90: valid, 91~100: test로 나누기 위함
+            file_path = f"data/{folder}/labels/User.{face_id}.{count_label}.txt"    # 파일 경로
+            with open(file_path, "w", encoding="utf8") as file: # 파일이 없으면 생성, 있으면 덮어쓰기
+                file.write(f"{face_id} {x} {y} {w} {h}")    # 파일에 라벨링 정보 입력
     cv2.imshow('image',frame)   # 노트북 카메라 영상 출력
 
     # 종료 조건
