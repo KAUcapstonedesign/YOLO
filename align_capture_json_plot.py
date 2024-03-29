@@ -69,22 +69,15 @@ capture.release()
 cv2.destroyAllWindows()
 
 # 랜드마크 데이터 로드 및 시각화
-landmarks = [[] for _ in range(68)] 
+plt.figure(figsize=(10, 10))  # 그래프 크기 설정
 
-# JSON 파일을 읽어 랜드마크 데이터를 저장
-for json_path in json_files:    
-    with open(json_path) as file:   
+for json_path in json_files:
+    with open(json_path) as file:
         data = json.load(file)
-        for i, point in enumerate(data):
-            landmarks[i].append(point)
+        x, y = zip(*data)  # x, y 좌표 분리
+        plt.scatter(x, y, alpha=0.5)  # 랜드마크 시각화
 
-# 랜드마크 데이터를 시각화
-for i, landmark in enumerate(landmarks):
-    x, y = zip(*landmark)
-    plt.scatter(x, y, label=f'Point {i+1}')
-
-plt.legend()
-plt.gca().invert_yaxis()    # y축을 상단이 0이 되도록 변경
+plt.gca().invert_yaxis()  # y축을 상단이 0이 되도록 변경
 plt.xlabel('X Coordinate')
 plt.ylabel('Y Coordinate')
 plt.title('Distribution of Facial Landmarks')
