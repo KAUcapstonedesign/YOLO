@@ -22,14 +22,15 @@ def extract_feature_vector(image_path):
 
 # 웹캠 설정
 capture = cv2.VideoCapture(0)
-capture.set(3, 640)  # 카메라 너비 설정
-capture.set(4, 480)  # 카메라 높이 설정
+capture.set(3, 256)  # 카메라 너비 설정
+capture.set(4, 256)  # 카메라 높이 설정
 
 face_id = input('\n enter user id and press <enter> ==> ')
 print("\n [INFO] Initializing face capture. Look the camera and wait ...")
 count = 0
 
 # 원본 이미지의 특징 벡터 로드
+# 경로 본인 컴퓨터에 맞게 설정
 original_face_vector = extract_feature_vector("C:\part divide\kicheol.jpg")
 
 if original_face_vector is None:
@@ -62,6 +63,7 @@ else:
 
             count += 1
             # 정렬된 얼굴과 특징 벡터 저장
+            # 코드가 있는 위치에 dataset폴더 생성해놔야 함
             img_path = f"dataset/face_{face_id}_{count}.jpg"
             cv2.imwrite(img_path, cv2.cvtColor(face_chip, cv2.COLOR_RGB2BGR))
             json_path = f"dataset/face_{face_id}_{count}_vector.json"
