@@ -125,13 +125,12 @@ def gaussian_graph_for_landmarks(json_files):
                       extent=[np.min(x), np.max(x), np.min(y), np.max(y)],
                       cmap='viridis')
         axs[i].scatter(x, y, s=5, facecolor='white')
-        axs[i].set_title(f'Landmark {i}')
+        axs[i].set_title(f'Landmark {i}', fontsize=8)
+        axs[i].tick_params(axis='both', which='both', labelsize=6)
         axs[i].invert_yaxis()  # Invert the y-axis to match the image coordinates
         
     plt.tight_layout()
     plt.show()
-
-# Assuming 'json_files' is a list of all JSON file paths
 gaussian_graph_for_landmarks(json_files)
 
 def line_gaussian_for_landmarks(json_files):
@@ -172,11 +171,9 @@ def line_gaussian_for_landmarks(json_files):
         axs[i].plot(y_range, y_density, label='Y Density', color='green')
         axs[i].fill_between(x_range, x_density, alpha=0.5, color='blue')
         axs[i].fill_between(y_range, y_density, alpha=0.5, color='green')
-        axs[i].set_title(f'Landmark {i}')
-        #axs[i].legend()
+        axs[i].set_title(f'Landmark {i}', fontsize=8)
+        axs[i].tick_params(axis='both', which='both', labelsize=6)
 
     plt.tight_layout()
     plt.show()
-
-# Assuming 'json_files' is a list of all JSON file paths
 line_gaussian_for_landmarks(json_files)
